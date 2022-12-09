@@ -5,9 +5,12 @@ export async function onRequestGet({ params: { crate } }) {
 		headers: {
 			'User-Agent': 'repo.rs',
 		},
-	}).then(resp => resp.json());
+	});
 
-	const repository = response?.crate?.repository;
+	console.debug(`got status ${response.status} (${response.statusText})`);
+
+	const body = await response.json();
+	const repository = body?.crate?.repository;
 	console.debug(`redirecting to '${repository}'`);
 
 	return new Response(null, {
